@@ -32,9 +32,23 @@ class Queue:
         Args:
             item (any): item to be  pushed
         """
-        self.entries.append
-        self.length += 1
+        temp = self.__Node(item) # create new node
+        
+        if self.is_empty():
+            # initialize the doubly linked list
+            self.head = temp
+            self.Tail = temp
+            
+            self.length += 1 
+            return 
+        # already initialized so just add the item
 
+        self.head.next = temp # point to next element
+        self.head = self.head.next # move pointer to next element which is last pushed element
+         
+        self.length += 1 
+        return 
+            
     def get(self):
         if self.length <= 0:
             return
@@ -51,6 +65,4 @@ class Queue:
         return self.length
 
     def __len__(self): # new addition
-        return self.length
-q = Queue()
-q.__Node()    
+        return self.length    
