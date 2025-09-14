@@ -6,13 +6,12 @@ class Queue:
     Queue follows First-In-First-Out methodology, i.e., the data item stored first will be accessed first.
 
     """
-    class __Node: # new addition
+    class __Node: # new addition part
         """ used for double linked list logic of queue"""
         """ should not available outside the class"""
         def __init__(self,element,next = None,prev = None):
             self.ele = element
             self.next = next
-            self.prev = prev
 
     def __init__(self): # modified part
         
@@ -20,7 +19,7 @@ class Queue:
         self.length = 0 # number of elements in it
         self.Tail = None # points to first pushed element (dequeue part)
     
-    def is_empty(self): # new addition
+    def is_empty(self): # new addition part
         """check is queue object is empty or not
         return boolean
         """
@@ -49,13 +48,22 @@ class Queue:
         self.length += 1 
         return 
             
-    def get(self):
-        if self.length <= 0:
-            return
+    def get(self): # modified part
+        """ pop the tail element and move the pointer one step ahead
+        """
+        if self.is_empty():
+            return 
+        
         self.length -= 1
-        de_queued = self.entries[self.front]
-        self.entries = self.entries[1:]
-        return de_queued
+        
+        temp = self.Tail
+        nex = self.Tail.next
+        self.Tail.next = None
+        self.Tail = nex
+        
+        return temp.ele
+        
+        
 
     def rotate(self, rotation):
         for i in range(rotation):
@@ -64,5 +72,5 @@ class Queue:
     def size(self):
         return self.length
 
-    def __len__(self): # new addition
+    def __len__(self): # new addition part
         return self.length    
