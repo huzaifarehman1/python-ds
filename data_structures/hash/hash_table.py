@@ -22,7 +22,7 @@ class HashTable:
     def __insert(self,key,value):
         hash_value = self.hash_function(key)
         index = hash_value%self.__curr_size
-        temp =self.__node(value)
+        temp =self.__node(key,value)# so i can identify which node have the value
         
         if self.__hash_table[index] is None:
                 self.__hash_table[index] = temp
@@ -45,8 +45,20 @@ class HashTable:
          
 
 
-    def get(self,ele):
+    def __get(self,ele):
         """access the value of ele = key"""
+        hash_value = self.hash_function(ele)
+        index = hash_value%self.__curr_size
+        if ele[index] == None:
+            raise Exception("Error")
+
+        head = ele[index]
+        while head is not None:
+            if head.val[0] == ele:
+                return head.val[1]
+            head = head.next
+        raise Exception("error")
+                 
         
     def hash_function(self,ele):
         """return hash value for the ele"""
@@ -88,7 +100,10 @@ class HashTable:
             raise Exception(f"UNHASHABLE ITEM {ele}")
         
     def __setitem__(self, key, value):
-        self.__insert(key,value)              
+        self.__insert(key,value)  
+    
+    def __getitem__(self,key):
+        return(self.__get(key))               
 
                     
                 
