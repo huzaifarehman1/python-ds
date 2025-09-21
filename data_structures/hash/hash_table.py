@@ -22,7 +22,7 @@ class HashTable:
     def __insert(self,key,value):
         hash_value = self.hash_function(key)
         index = hash_value%self.__curr_size
-        temp =self.__node(key,value)# so i can identify which node have the value
+        temp =self.__node((key,value))# so i can identify which node have the value
         
         if self.__hash_table[index] is None:
                 self.__hash_table[index] = temp
@@ -39,9 +39,38 @@ class HashTable:
                 
 
 
-    def delete(self,ele):
+    def __delete(self,ele):
         hash_value = self.hash_function(ele)
         index = hash_value%self.__curr_size
+        if self.__hash_table[index] is None:
+            return
+        
+        else:
+            prev = None
+            head = self.__hash_table[index]
+            while head is not None:
+                if head.val[0]==ele:
+                    nex = head.next
+                    while nex is not None:
+                        
+                        head.val = nex.val
+                        prev = head
+                        head = head.next
+                        nex = nex.next                    
+                    if prev is None:
+                        # first element
+                        temp = head.next
+                        head.next = None
+                        self.__hash_table = temp
+                    else:
+                        assert head.next is None
+                        prev.next = None
+                        del head    
+                    return 
+                
+                prev = head
+                head = head.next 
+            return  
          
 
 
@@ -49,10 +78,10 @@ class HashTable:
         """access the value of ele = key"""
         hash_value = self.hash_function(ele)
         index = hash_value%self.__curr_size
-        if ele[index] == None:
+        if self.__hash_table[index] == None:
             raise Exception("Error")
 
-        head = ele[index]
+        head = self.__hash_table[index]
         while head is not None:
             if head.val[0] == ele:
                 return head.val[1]
@@ -105,6 +134,8 @@ class HashTable:
     def __getitem__(self,key):
         return(self.__get(key))               
 
+    def __delete__(self,key):
+        self.__delete(key)
+        
                     
-                
-            
+                      
