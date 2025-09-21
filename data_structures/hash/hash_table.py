@@ -79,14 +79,14 @@ class HashTable:
         hash_value = self.hash_function(ele)
         index = hash_value%self.__curr_size
         if self.__hash_table[index] == None:
-            raise Exception("Error")
+            raise KeyError
 
         head = self.__hash_table[index]
         while head is not None:
             if head.val[0] == ele:
                 return head.val[1]
             head = head.next
-        raise Exception("error")
+        raise KeyError
                  
         
     def hash_function(self,ele):
@@ -137,5 +137,9 @@ class HashTable:
     def __delete__(self,key):
         self.__delete(key)
         
-                    
-                      
+    def __contains__(self,item):
+        try:
+            self.__get(item)
+            return True
+        except KeyError:
+            return False                                 
