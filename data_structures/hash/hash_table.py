@@ -18,18 +18,11 @@ class HashTable:
         self.__curr_size = 1000
         self.__hash_table = [None] * self.__curr_size
 
-    def check_collision(self):
-        pass
 
-
-    def add_to_linked_list(self):
-        pass
-
-
-    def insert(self,ele):
-        hash_value = self.hash_function(ele)
+    def __insert(self,key,value):
+        hash_value = self.hash_function(key)
         index = hash_value%self.__curr_size
-        temp =self.__node(ele)
+        temp =self.__node(value)
         
         if self.__hash_table[index] is None:
                 self.__hash_table[index] = temp
@@ -93,7 +86,8 @@ class HashTable:
         else:
             raise Exception(f"UNHASHABLE ITEM {ele}")
         
-                    
+    def __setitem__(self, key, value):
+        self.__insert(key,value)              
                     
                     
                 
