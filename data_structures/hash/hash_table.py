@@ -16,7 +16,7 @@ class HashTable:
     
     def __init__(self):
         self.__curr_size = 1000
-        self.hash_table = [None] * self.__curr_size
+        self.__hash_table = [None] * self.__curr_size
 
     def check_collision(self):
         pass
@@ -26,23 +26,40 @@ class HashTable:
         pass
 
 
-    def insert(self):
-        pass
+    def insert(self,ele):
+        hash_value = self.hash_function(ele)
+        index = hash_value%self.__curr_size
+        temp =self.__node(ele)
+        
+        if self.__hash_table[index] is None:
+                self.__hash_table[index] = temp
+        
+        else:
+            head = self.__hash_table[index]
+            prev = head
+            curr = head.next
+            while curr is not None:
+                curr = curr.next
+                prev = prev.next
+            assert prev.next is None
+            prev.next = temp
+                
 
 
-    def delete(self):
-        pass
+    def delete(self,ele):
+        hash_value = self.hash_function(ele)
+        index = hash_value%self.__curr_size
+         
 
 
     def get(self,ele):
         """access the value of ele = key"""
-        hash_value = self.hash_function(ele)
-    
+        
     def hash_function(self,ele):
         """return hash value for the ele"""
         # should support all data type such as tup int float str bool
         def for_int_float(ele):
-                return (pow(ele,3)*10)-(pow(ele,2)//7) - ele 
+                return (ele*10)+(pow(ele,2)//7) + ele 
             
         def for_str(ele):    
                 
@@ -52,23 +69,30 @@ class HashTable:
                         integer += k*(ord(i))
                         k += 1
                     ele = integer    
-                    return (pow(ele,3)*10)+(pow(ele,2)//7) - ele 
-        def for_tup(ele):
-            total = 0
-            k = True
+                    return (ele*10)+(pow(ele,2)//7) + ele 
+                
+        def for_tup(ele,total = 0):
             for i in ele:
                 if isinstance(ele,(int,float)):
                     answer =  for_int_float(ele)   
                 elif isinstance(ele,str):
                     answer = for_str(ele)
-                
+                elif isinstance(ele,tuple):
+                    answer = for_tup(ele,total+1)
+                else:
+                    raise Exception(f"UNHASHABLE ITEM {ele}")
+                total += answer
+            return total 
         if isinstance(ele,(int,float)):
             return for_int_float(ele)   
         elif isinstance(ele,str):
             return for_str(ele)
              
         elif isinstance(ele,tuple):
-            
+            return for_tup(ele)
+        else:
+            raise Exception(f"UNHASHABLE ITEM {ele}")
+        
                     
                     
                     
