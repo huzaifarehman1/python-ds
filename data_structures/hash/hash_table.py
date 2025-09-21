@@ -66,16 +66,17 @@ class HashTable:
                 
         def for_tup(ele,total = 0):
             for i in ele:
-                if isinstance(ele,(int,float)):
-                    answer =  for_int_float(ele)   
-                elif isinstance(ele,str):
-                    answer = for_str(ele)
-                elif isinstance(ele,tuple):
-                    answer = for_tup(ele,total+1)
+                if isinstance(i,(int,float)):
+                    answer =  for_int_float(i)   
+                elif isinstance(i,str):
+                    answer = for_str(i)
+                elif isinstance(i,tuple):
+                    answer = for_tup(i,total+1)
                 else:
                     raise Exception(f"UNHASHABLE ITEM {ele}")
                 total += answer
             return total 
+        
         if isinstance(ele,(int,float)):
             return for_int_float(ele)   
         elif isinstance(ele,str):
@@ -88,7 +89,7 @@ class HashTable:
         
     def __setitem__(self, key, value):
         self.__insert(key,value)              
-                    
+
                     
                 
             
